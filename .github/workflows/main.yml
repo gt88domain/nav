@@ -1,4 +1,4 @@
-name: Deploy GitHub Pages
+name: Deploy static website
 
 on:
   push:
@@ -9,6 +9,10 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
@@ -16,14 +20,10 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
-      - name: Build
-        uses: actions/jekyll-build-pages@v1
-        with:
-          source: ./
-          destination: ./_site
-
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
+        with:
+          path: '.'    # 这里指定你的静态文件目录
 
       - name: Deploy to GitHub Pages
         id: deployment
